@@ -1,6 +1,14 @@
 import numpy as np
 from ride import ride
 from car import car
+import os
+
+filedir = os.getcwd()
+parentdir = os.path.split(filedir)[0]
+
+filename = "a_example"
+
+filename = os.path.join(parentdir, filename)
 
 
 def parser(filename):
@@ -31,11 +39,11 @@ def parser(filename):
         es = lineInfo[4]
         lf = lineInfo[5]
         
-        newride = ride(startp = start, endp = end, estart = es, efinish = lf)
+        newride = ride(start, end, es, lf)
         out.append(newride)
         
     f.close()
 
     return rows, columns, vechicles, rides, bonus, steps, out
 
-
+parser(filename)
