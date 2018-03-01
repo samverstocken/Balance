@@ -111,21 +111,24 @@ class Runner(object):
             for car in self.cars:
                 car.update(self.time)
 
+            print(t)
             if self.no_rides: break
 
             for ride in self.rides:
-                if ride is None:
-                    continue
+
+                if ride is None: continue
 
                 # POSSIBLE???
-                if ride.possible:
+                if not ride.possible: self.rides[ride.rideID] = None
+
+                else:
+
                     print("POSSIBLE")
                     #car = self.find_nearest_car(ride.start)
                     car = self.find_nearest_available_car(ride.start)
                     print(car)
-                    if car is None:
 
-                        pass
+                    if car is None: pass
 
                     else:
 
@@ -134,8 +137,8 @@ class Runner(object):
                         else:
                             car.add_ride(ride)
 
-                # self.rides.pop(ride.rideID)
-                self.rides[ride.rideID] = None
+                        # self.rides.pop(ride.rideID)
+                        self.rides[ride.rideID] = None
 
         self.write()
 
