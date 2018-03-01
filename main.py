@@ -18,4 +18,7 @@ rows, columns, vehicles, rides, bonus, steps, out = parser(filepath)
 
 print(rides)
 
+# Sort the rides from highest number of steps
+sorted_rides = sorted(rides, key=lambda ride: ride.distance)
 
+print(sorted_rides)
