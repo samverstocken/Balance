@@ -1,33 +1,21 @@
 #!/user/bin/env python
 
+# Imports
 import numpy as np
-import scipy as sp
-from filereader import *
-from car.py import*
-from ride.py import*
+from car import Car
+from ride import Ride
+from parser import parser
+#from pts.core.tools import filesystem as fs
 
+# Loop over the files
+#for filepath in fs.files_in_path()
 
-fileloc = "/home/tine/Desktop/Hashcode2017"
-filename1 = "busy_day.in" 
-#-------------------------------READ FILE-----------------------------------
+filename = "a_example.in"
+filepath = "input_files/" + filename
 
-x,y,z = filereader(filename1)
+# Read file
+rows, columns, vehicles, rides, bonus, steps, out = parser(filepath)
 
-#-------------------------------INITIALZE-----------------------------------
-
-
-	
-
-#----------------------------- ALGORITME -------------------------------------
-
-
-   
-#----------------------------- COMMANDOS -----------------------------------
-
-
-#-------------------------------FUNCTIONS-----------------------------------
-
-def dist(a,b):
-    return numpy.linalg.norm(a-b)
+print(rides)
 
 
