@@ -9,6 +9,8 @@ from parser import parser
 
 from pts.core.tools import formatting as fmt
 
+from position import Position
+
 # Loop over the files
 #for filepath in fs.files_in_path()
 
@@ -92,17 +94,30 @@ class Runner(object):
 
             self.time = t
 
+            for car in self.cars:
+                car.update(self.time)
+
             for ride in self.rides:
+                if ride is None: continue
 
-                #car = self.find_nearest_car(ride.start)
-                car = self.find_nearest_available_car(ride.start)
+                # POSSIBLE???
+                if ride.possible:
+                    print ("POSSIBLE")
+                    #car = self.find_nearest_car(ride.start)
+                    car = self.find_nearest_available_car(ride.start)
 
-                if get_distance(car.pos, ride.start) > ride.earliest:
-                    print(fmt.red + "impossible!"+ fmt.reset)
+                    if car is None:
 
-                car.add_ride(ride)
+                        pass
 
-                self.rides.pop(ride.rideID)
+                    else:
+
+                        if car.pos.distance(ride.start) > ride.earliest - t:
+                            print(fmt.red + "impossible!"+ fmt.reset)
+                        else: car.add_ride(ride)
+
+                #self.rides.pop(ride.rideID)
+                self.rides[ride.rideID] = None
 
         self.write()
 
@@ -125,7 +140,7 @@ class Runner(object):
     @property
     def available_cars(self):
 
-        return [car for car in self.cars if not car.riding]
+        return [car for car in self.cars if not car.available]
 
     # -----------------------------------------------------------------
 
@@ -144,7 +159,8 @@ class Runner(object):
 
         distances = [get_distance(car_position, position) for car_position in self.car_positions]
         #nearest_indices = np.argmin(distances)
-        nearest_index = np.argmin(distances)
+        try: nearest_index = np.argmin(distances)
+        except ValueError: return None
         #print(nearest_index)
         return self.cars[nearest_index]
 
@@ -157,7 +173,8 @@ class Runner(object):
         """
 
         distances = [get_distance(car_position, position) for car_position in self.available_car_positions]
-        nearest_index = np.argmin(distances)
+        try: nearest_index = np.argmin(distances)
+        except ValueError: return None
         return self.available_cars[nearest_index]
 
     # -----------------------------------------------------------------
@@ -176,15 +193,15 @@ class Runner(object):
         :return:
         """
 
-        with open(self.outfilepath, 'w'):
+        with open(self.outfilepath, 'w') as f:
 
             #for i in range(self.ncars):
-            for car in self.cars:
+            for i, car in enumerate(self.cars):
 
-                f.write(car.ID + '\n')
+                f.write(str(i+1))
 
-                for ride in car.rideList:
-                    f.write(ride.rideID)
+                for ride in car.history:
+                    f.write(str(ride.rideID))
 
                 f.write('\n')
 

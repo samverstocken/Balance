@@ -1,7 +1,8 @@
+from position import Position
+
 class Car:
 
     def __init__(self):
-<<<<<<< HEAD
 
         """
         This function ...
@@ -15,6 +16,9 @@ class Car:
 
         self.totarget = False
 
+        self.distancetostart = 0
+        self.distancetofinnish = 0
+
         #self.disttotarget =
 
     @property
@@ -23,30 +27,82 @@ class Car:
 
     @property
     def waiting(self):
-        return self.waiting is not None
+        return self.waiter is not None
 
     def add_ride(self, ride):
         self.waiter = ride
 
     @property
     def available(self):
-        return self.waiting is None and self.current is None
+        return self.waiter is None and self.current is None
 
     @property
     def dist_to_finish(self):
         return self.pos.distance(self.current.finish)
 
-    def update(self):
+    def update(self, t):
 
-        if self.waiting: # WAITING
+        # WAITING
+        if self.waiting:
 
+            print("WAITING")
+
+            # ALREADY ARRIVED, WAITING FOR CLIENT
             if self.pos == self.waiting.pos:
 
+                print("   ALREADY ARRIVED, WAITING FOR CLIENT")
 
+                # START DRIVING TO FINISH, WAITER BECOMES NOW CURRENT
+                if t >= self.waiting.earliest:
+
+                    self.current = self.waiting
+                    self.waiter = None
+
+                # JUST KEEP WAITING: NO POS CHANGE
+                else: print("   KEEP WAITING")
+
+            # NOT YET ARRIVED AT START POSITION
             else:
 
-        elif self.riding: # DRIVING
+                # MOVE X FIRST
+                if self.pos.x != self.waiting.start.x:
 
+                    if self.pos.x < self.waiting.start.x: self.pos.moveright()
+                    else: self.pos.moveleft()
 
+                # MOVE Y FIRST
+                elif self.pos.y != self.waiting.start.y:
 
+                    if self.pos.y < self.waiting.start.y: self.pos.moveup()
+                    else: self.pos.movedown()
+
+                else: raise RuntimeError("DOO?GNPOG")
+
+        # DRIVING
+        elif self.riding:
+
+            # ARRIVED AT DESTINATION?
+            if self.pos == self.current.pos:
+
+                self.history.append(self.current)
+                self.current = None
+
+            # NOT YET ARRIVED
+            else:
+
+                # MOVE X FIRST
+                if self.pos.x != self.current.finish.x:
+
+                    if self.pos.x < self.current.finish.x: self.pos.moveright()
+                    else: self.pos.moveleft()
+
+                # MOVE Y FIRST
+                elif self.pos.y != self.current.finish.y:
+
+                    if self.pos.y < self.current.finish.y: self.pos.moveup()
+                    else: self.pos.movedown()
+
+                else: raise RuntimeError("DOO?GNPOG")
+
+        #
         else: pass
