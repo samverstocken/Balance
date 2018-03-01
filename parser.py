@@ -1,6 +1,6 @@
 import numpy as np
-from ride import ride
-from car import car
+from ride import Ride
+from car import Car
 import os
 
 
@@ -28,6 +28,7 @@ def parser(filename):
     
     out = []
 
+    ID = 0
     for line in f: 
 
         lineInfo = line.split()
@@ -40,8 +41,9 @@ def parser(filename):
         es = float(lineInfo[4])
         lf = float(lineInfo[5])
         
-        newride = ride(start, end, es, lf)
+        newride = Ride(start, end, es, lf, ID)
         out.append(newride)
+        ID +=1
         
     f.close()
 
