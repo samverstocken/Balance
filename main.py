@@ -9,6 +9,7 @@ from parser import parser
 
 #from pts.core.tools import formatting as fmt
 
+import argparse
 from position import Position
 
 # Loop over the files
@@ -22,6 +23,13 @@ from position import Position
 
 #sorted_rides = sorted(rides, key=lambda ride: ride.start)
 # print(sorted_rides)
+
+argp = argparse.ArgumentParser()
+argp.add_argument('which', type=int)
+argp.add_argument('--output', type=str, default="output.txt")
+
+# Get arguments
+args = argp.parse_args()
 
 # -----------------------------------------------------------------
 
@@ -203,11 +211,10 @@ class Runner(object):
 
             # for i in range(self.ncars):
             for i, car in enumerate(self.cars):
+                nrides = len(car.history)
+                f.write(str(nrides) + " ")
 
-                f.write(str(i + 1) + " ")
-
-                for ride in car.history:
-                    f.write(str(ride.rideID) + " ")
+                for ride in car.history: f.write(str(ride.rideID) + " ")
 
                 f.write('\n')
 
@@ -215,7 +222,7 @@ class Runner(object):
 
 
 # Run
-runner = Runner(0, output="output.txt")
+runner = Runner(args.which, output=args.output)
 runner.run()
 
 # -----------------------------------------------------------------
