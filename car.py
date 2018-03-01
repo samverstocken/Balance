@@ -1,33 +1,15 @@
-
 class Car:
 
     def __init__(self):
+        self.pos = [0, 0]
+        self.riding = false
+        self.rides = 0
+        self.ridelist = []
 
-        self.pos = Position(0, 0)
+    def setPos(pos):
+        self.start = start
 
-        self.riding = False
-        self.rides = []
-
-        self.totarget = False
-
-    @property
-    def nrides(self):
-
-        return len(self.rides)
-
-    def add_ride(self, ride):
-
-        self.rides.append(ride)
-        #self.riding = True
-
-    def check_ride(self):
-
-
-
-    @property
-    def last_ride(self):
-        return self.rides[-1]
-
-    def update(self):
-
-#
+    def setRiding(riding, rideID):
+        self.riding = riding
+        self.rides += 1
+        self.ridelist.append(rideID)
