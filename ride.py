@@ -6,9 +6,9 @@ class ride:
 		self.earliest = earliest
 		self.latest = latest
 		self.steps = steps
-		self.distance = abs(dist(start,finish))
+		self.distance = dist(start,finish)
 
 
 	
 	def dist(a,b):
-    		return numpy.linalg.norm(a-b)
+    		return abs(a[0]-b[0]) + abs(a[1]-b[1])
