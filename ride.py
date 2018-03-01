@@ -9,5 +9,6 @@ class Ride:
         self.rideID = ID
         self.status = False
 
+
     def dist(self, a, b):
         return abs(a[0] - b[0]) + abs(a[1] - b[1])

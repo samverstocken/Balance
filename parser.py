@@ -19,12 +19,12 @@ def parser(filename):
     FirstInfo = f.readline()
     FirstInfo = FirstInfo.split()
     
-    rows = float(FirstInfo[0])
-    columns = float(FirstInfo[1])
-    vechicles = float(FirstInfo[2])
-    rides = float(FirstInfo[3])
-    bonus = float(FirstInfo[4])
-    steps = float(FirstInfo[5])
+    rows = int(FirstInfo[0])
+    columns = int(FirstInfo[1])
+    vechicles = int(FirstInfo[2])
+    rides = int(FirstInfo[3])
+    bonus = int(FirstInfo[4])
+    steps = int(FirstInfo[5])
     
     out = []
 
@@ -32,14 +32,14 @@ def parser(filename):
     for line in f: 
 
         lineInfo = line.split()
-        a = float(lineInfo[0])
-        b = float(lineInfo[1])
-        c = float(lineInfo[2])
-        d = float(lineInfo[3])
+        a = int(lineInfo[0])
+        b = int(lineInfo[1])
+        c = int(lineInfo[2])
+        d = int(lineInfo[3])
         start = (a,b)
         end = (c,d)
-        es = float(lineInfo[4])
-        lf = float(lineInfo[5])
+        es = int(lineInfo[4])
+        lf = int(lineInfo[5])
         
         newride = Ride(start, end, es, lf, ID)
         out.append(newride)
@@ -49,4 +49,4 @@ def parser(filename):
 
     return rows, columns, vechicles, rides, bonus, steps, out
 
-print(parser(filename))
+#print(parser(filename))

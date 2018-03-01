@@ -7,18 +7,191 @@ from ride import Ride
 from parser import parser
 #from pts.core.tools import filesystem as fs
 
+from pts.core.tools import formatting as fmt
+
 # Loop over the files
 #for filepath in fs.files_in_path()
 
-filename = "a_example.in"
-filepath = "input_files/" + filename
-
-# Read file
-rows, columns, vehicles, rides, bonus, steps, out = parser(filepath)
-
-print(rides)
 
 # Sort the rides from highest number of steps
-sorted_rides = sorted(rides, key=lambda ride: ride.distance)
+#sorted_rides = sorted(rides, key=lambda ride: ride.distance)
 
-print(sorted_rides)
+#print(sorted_rides)
+
+#sorted_rides = sorted(rides, key=lambda ride: ride.start)
+#print(sorted_rides)
+
+# -----------------------------------------------------------------
+
+def get_distance(posa, posb):
+
+    """
+    This function ...
+    :param posa:
+    :param posb:
+    :return:
+    """
+
+    return abs(posa[0] - posb[0]) + abs(posa[1] - posb[1])
+
+# -----------------------------------------------------------------
+
+filenames = ["a_example.in", "b_should_be_easy.in", "c_no_hurry.in", "d_metropolis.in", "e_high_bonus.in"]
+
+# -----------------------------------------------------------------
+
+class Runner(object):
+
+    def __init__(self, which=0, output="output.txt"):
+
+        """
+        This function ...
+        """
+
+        # Read file
+        rows, columns, nvehicles, nrides, bonus, steps, rides = parser(filenames[which])
+
+        ####
+        self.rides = rides
+        self.cars = []
+
+        #
+        self.initialize_cars(nvehicles)
+
+        # sET out o^^ut file path
+        self.outfilepath = output
+
+        self.time = 0
+        self.nsteps = steps
+
+    # -----------------------------------------------------------------
+
+    def initialize_cars(self, ncars):
+
+        """
+        This function ..
+        :return:
+        """
+
+        for _ in range(ncars):
+
+            #
+            car = Car()
+            self.cars.append(car)
+
+    # -----------------------------------------------------------------
+
+    def run(self):
+
+        """
+        This function ...
+        :return:
+        """
+
+        for t in range(self.nsteps):
+
+            self.time = t
+
+            for ride in self.rides:
+
+                #car = self.find_nearest_car(ride.start)
+                car = self.find_nearest_available_car(ride.start)
+
+                if get_distance(car.pos, ride.start) > ride.earliest:
+                    print(fmt.red + "impossible!"+ fmt.reset)
+
+                car.add_ride(ride)
+
+                self.rides.pop(ride.rideID)
+
+        self.write()
+
+    # -----------------------------------------------------------------
+
+    @property
+    def car_positions(self):
+
+        """
+        This function ...
+        :return:
+        """
+
+        positions = []
+        for car in self.cars: positions.append(car.pos)
+        return positions
+
+    # -----------------------------------------------------------------
+
+    @property
+    def available_cars(self):
+
+        return [car for car in self.cars if not car.riding]
+
+    # -----------------------------------------------------------------
+
+    @property
+    def available_car_positions(self):
+
+        return [car.pos for car in self.available_cars]
+
+    def find_nearest_car(self, position):
+
+        """
+        This function ...
+        :param position:
+        :return:
+        """
+
+        distances = [get_distance(car_position, position) for car_position in self.car_positions]
+        #nearest_indices = np.argmin(distances)
+        nearest_index = np.argmin(distances)
+        #print(nearest_index)
+        return self.cars[nearest_index]
+
+    def find_nearest_available_car(self, position):
+
+        """
+        This function ..
+        :param position:
+        :return:
+        """
+
+        distances = [get_distance(car_position, position) for car_position in self.available_car_positions]
+        nearest_index = np.argmin(distances)
+        return self.available_cars[nearest_index]
+
+    # -----------------------------------------------------------------
+
+    @property
+    def ncars(self):
+
+        return len(self.cars)
+
+    # -----------------------------------------------------------------
+
+    def write(self):
+
+        """
+        This function ...
+        :return:
+        """
+
+        with open(self.outfilepath, 'w'):
+
+            #for i in range(self.ncars):
+            for car in self.cars:
+
+                f.write(car.ID + '\n')
+
+                for ride in car.rideList:
+                    f.write(ride.rideID)
+
+                f.write('\n')
+
+# ----------------------------------------------------------------
+
+# Run
+runner = Runner(0, output="output.txt")
+runner.run()
+
+# -----------------------------------------------------------------
