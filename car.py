@@ -1,8 +1,8 @@
 class car:
 
-	def __init__(self,pos, wait):
+	def __init__(self,riding):
 		self.pos = [0,0]
-		self.wait = false
+		self.riding = false
 
 	def setPos(pos):
 		self.start = start
