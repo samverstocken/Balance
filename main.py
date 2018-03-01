@@ -92,6 +92,12 @@ class Runner(object):
 
     # -----------------------------------------------------------------
 
+    @property
+    def no_rides(self):
+        for ride in self.rides:
+            if ride is not None: return False
+        return True
+
     def run(self):
         """
         This function ...
@@ -104,6 +110,8 @@ class Runner(object):
 
             for car in self.cars:
                 car.update(self.time)
+
+            if self.no_rides: break
 
             for ride in self.rides:
                 if ride is None:
