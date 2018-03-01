@@ -1,4 +1,4 @@
-class ride:
+class Ride:
 
     def __init__(self, start, finish, earliest, latest, ID):
         self.start = start
