@@ -1,7 +1,7 @@
-
 class Car:
 
     def __init__(self):
+<<<<<<< HEAD
 
         """
         This function ...
@@ -50,6 +50,3 @@ class Car:
 
 
         else: pass
-
-
-#
