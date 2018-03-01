@@ -106,7 +106,7 @@ class Runner(object):
                     print("POSSIBLE")
                     #car = self.find_nearest_car(ride.start)
                     car = self.find_nearest_available_car(ride.start)
-
+                    print(car)
                     if car is None:
 
                         pass
@@ -142,7 +142,7 @@ class Runner(object):
     @property
     def available_cars(self):
 
-        return [car for car in self.cars if not car.available]
+        return [car for car in self.cars if car.available]
 
     # -----------------------------------------------------------------
 
@@ -168,15 +168,16 @@ class Runner(object):
         # print(nearest_index)
         return self.cars[nearest_index]
 
-    def find_nearest_available_car(self, position):
+    def find_nearest_available_car(self, pos):
         """
         This function ..
         :param position:
         :return:
         """
 
-        distances = [get_distance(car_position, position)
+        distances = [car_position.distance(pos)
                      for car_position in self.available_car_positions]
+        print(distances)
         try:
             nearest_index = np.argmin(distances)
         except ValueError:
@@ -203,10 +204,10 @@ class Runner(object):
             # for i in range(self.ncars):
             for i, car in enumerate(self.cars):
 
-                f.write(str(i + 1))
+                f.write(str(i + 1) + " ")
 
                 for ride in car.history:
-                    f.write(str(ride.rideID))
+                    f.write(str(ride.rideID) + " ")
 
                 f.write('\n')
 
