@@ -98,6 +98,13 @@ class Runner(object):
             if ride is not None: return False
         return True
 
+    @property
+    def all_available(self):
+
+        for car in self.cars:
+            if not car.available: return False
+        return True
+
     def run(self):
         """
         This function ...
@@ -111,15 +118,19 @@ class Runner(object):
             for car in self.cars:
                 car.update(self.time)
 
-            print(t)
-            if self.no_rides: break
+            #print(t)
+            #if self.no_rides: break
+            #print(self.rides)
+
+            if self.no_rides and self.all_available: break
 
             for ride in self.rides:
-
                 if ride is None: continue
 
                 # POSSIBLE???
-                if not ride.possible: self.rides[ride.rideID] = None
+                if not ride.possible:
+                    print("NOT POSSIBLE!!!!")
+                    self.rides[ride.rideID] = None
 
                 else:
 
@@ -133,8 +144,9 @@ class Runner(object):
                     else:
 
                         if car.pos.distance(ride.start) > ride.earliest - t:
-                            print("impossible!")
+                            print("impossible for nearest car!")
                         else:
+                            print("ride " + str(ride.rideID) + " added to car ")
                             car.add_ride(ride)
 
                         # self.rides.pop(ride.rideID)
