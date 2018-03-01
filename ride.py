@@ -1,6 +1,6 @@
 class ride:
 
-	def __init__(self,start, finish, earliest latest):
+	def __init__(self,start, finish, earliest, latest):
 		self.start = start
 		self.finish = finish
 		self.earliest = earliest
