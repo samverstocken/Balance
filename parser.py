@@ -3,41 +3,42 @@ from ride import ride
 from car import car
 import os
 
-filedir = os.getcwd()
-parentdir = os.path.split(filedir)[0]
 
-filename = "a_example"
 
-filename = os.path.join(parentdir, filename)
+filename = "a_example.in"
+
 
 
 def parser(filename):
-    
+    filedir = os.getcwd()
+    filedir = os.path.join(filedir,"input_files")
+    filename = os.path.join(filedir, filename)
+
     f = open(filename, "r")
 
     FirstInfo = f.readline()
     FirstInfo = FirstInfo.split()
     
-    rows = FirstInfo[0]
-    columns = FirstInfo[1]
-    vechicles = FirstInfo[2]
-    rides = FirstInfo[3]
-    bonus = FirstInfo[4]
-    steps = FirstInfo[5]
+    rows = float(FirstInfo[0])
+    columns = float(FirstInfo[1])
+    vechicles = float(FirstInfo[2])
+    rides = float(FirstInfo[3])
+    bonus = float(FirstInfo[4])
+    steps = float(FirstInfo[5])
     
     out = []
 
     for line in f: 
 
         lineInfo = line.split()
-        a = lineInfo[0]
-        b = lineInfo[1]
-        c = lineInfo[2]
-        d = lineInfo[3]
+        a = float(lineInfo[0])
+        b = float(lineInfo[1])
+        c = float(lineInfo[2])
+        d = float(lineInfo[3])
         start = (a,b)
         end = (c,d)
-        es = lineInfo[4]
-        lf = lineInfo[5]
+        es = float(lineInfo[4])
+        lf = float(lineInfo[5])
         
         newride = ride(start, end, es, lf)
         out.append(newride)
@@ -46,4 +47,4 @@ def parser(filename):
 
     return rows, columns, vechicles, rides, bonus, steps, out
 
-parser(filename)
+print(parser(filename))

@@ -5,10 +5,8 @@ class ride:
 		self.finish = finish
 		self.earliest = earliest
 		self.latest = latest
-		self.steps = steps
-		self.distance = dist(start,finish)
+		self.distance = self.dist(start,finish)
 
 
-	
-	def dist(a,b):
+	def dist(self, a,b):
     		return abs(a[0]-b[0]) + abs(a[1]-b[1])
