@@ -39,7 +39,7 @@ def parser(filename):
         es = lineInfo[4]
         lf = lineInfo[5]
         
-        newride = ride(startp = start, endp = end, estart = es, efinish = lf)
+        newride = ride(start, end, es, lf)
         out.append(newride)
         
     f.close()
